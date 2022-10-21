@@ -25,13 +25,14 @@ Steps to configure and run eve_config_gen script:
 ```
 
 
-### config_options
+# config_options
 
-nodes_to_configure
-: This is used to selectively choose the nodes in which the configuration will be applied. A default, empty list, will apply configuration to all nodes in the topology. A list, such as ['R1', 'R2'], will apply configuration to both nodes R1 and R2.
+### nodes_to_configure
+This is used to selectively choose the nodes in which the configuration will be applied. A default, empty list, will apply configuration to all nodes in the topology. A list, such as ['R1', 'R2'], will apply configuration to both nodes R1 and R2.
 
-loopback_count (max 10)
-: This will apply a variation of loopback addressing based off of this value. A value of 3 will result the following Cisco configuration
+### loopback_count
+- max 10
+This will apply a variation of loopback addressing based off of this value. A value of 3 will result the following Cisco configuration
 ```
 interface Loopback0
  ip address 20.100.0.1 255.255.255.0
