@@ -8,9 +8,6 @@
     "loopback_count": 3,
     "add_duplicate_loopbacks": [],
     "private_addressing": false,
-    "baseline_config": [
-      "router ospf 1",
-      "network 0.0.0.0 0.0.0.0 area 0"
-    ]
+    "baseline_config": []
   }
 }
