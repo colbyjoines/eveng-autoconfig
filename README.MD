@@ -31,7 +31,6 @@ Steps to configure and run eve_config_gen script:
 This is used to selectively choose the nodes in which the configuration will be applied. A default, empty list, will apply configuration to all nodes in the topology. A list, such as ['R1', 'R2'], will apply configuration to both nodes R1 and R2.
 
 ### loopback_count
-- max 10
 This will apply a variation of loopback addressing based off of this value. A value of 3 will result the following Cisco configuration
 ```
 interface Loopback0
@@ -54,5 +53,24 @@ interface Loopback11
 !
 interface Loopback12
  ip address 100.1.2.2 255.255.255.255
-!
 ```
+### add_duplicate_loopbacks
+This value will add duplicate networks on a list of nodes. A loopback_count value of 3 will apply the following configuration on the referenced nodes
+```
+interface Loopback20
+ ip address 1.1.1.20 255.255.255.255
+ ip ospf network point-to-point
+!
+interface Loopback21
+ ip address 1.1.1.21 255.255.255.255
+ ip ospf network point-to-point
+!
+interface Loopback22
+ ip address 1.1.1.22 255.255.255.255
+ ip ospf network point-to-point
+```
+### private_addressing
+true will result **10.1.xx.x** for physical/internode connectivity. false will result **xx.1.1.xx** for physical/internode connectivity
+
+### baseline_config
+The list of commands will be passed into the configuration script after all interface and hostname configurations are applied
