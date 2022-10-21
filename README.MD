@@ -14,8 +14,8 @@ Steps to configure and run eve_config_gen script:
   "config_options": {
     "nodes_to_configure": [],
     "loopback_count": 3,
-    "add_duplicate_loopbacks": ["R4", "R5"],
-    "private_addressing": true,
+    "add_duplicate_loopbacks": [],
+    "private_addressing": false,
     "baseline_config": [
       "router ospf 1",
       "network 0.0.0.0 0.0.0.0 area 0"
