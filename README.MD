@@ -78,6 +78,6 @@ The list of commands will be passed into the configuration script after all inte
 
 
 ### Caveats
-- Nodes cannot have multiple links connecting to each node
+- Nodes cannot have multiple links connecting between the same nodes
 - The initial configuration will fail if the topology is brand new and at an initial configuration prompt. Run the script multiple times and it will eventually pass
 - Each node name much include a prefix, followed by a number, which will be used to seed the configuration. For example "pe2" will utilize 2 as the node IP when generating inter-node addressing
