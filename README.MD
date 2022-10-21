@@ -3,7 +3,7 @@
 A basic library used to generate baseline configuration for an eve-ng network topology.
 
 Steps to configure and run eve_config_gen script:
-1. Update config.json file with topology and environement details
+1. Update config.json file with topology and environement details. Reference config_options section for details
 
 ```
 {
@@ -23,9 +23,10 @@ Steps to configure and run eve_config_gen script:
   }
 }
 ```
+2. Connect all nodes in the topology. Do not include multiple links between nodes. Verify that the topology (or referenced nodes in config file) are Cisco routers.
+3. Execute the eve_config_gen.py after installing all dependencies included in requirements.txt. **Note** that this will likely fail a few times. Run the scirpt multiple times and it will eventually complete entirely. 
 
-
-# config_options
+## config_options
 
 ### nodes_to_configure
 This is used to selectively choose the nodes in which the configuration will be applied. A default, empty list, will apply configuration to all nodes in the topology. A list, such as ['R1', 'R2'], will apply configuration to both nodes R1 and R2.
@@ -74,3 +75,9 @@ true will result **10.1.xx.x** for physical/internode connectivity. false will r
 
 ### baseline_config
 The list of commands will be passed into the configuration script after all interface and hostname configurations are applied
+
+
+### Caveats
+- Nodes cannot have multiple links connecting to each node
+- The initial configuration will fail if the topology is brand new and at an initial configuration prompt. Run the script multiple times and it will eventually pass
+- Each node much include a prefix, followed by a number, which will be used to seed the configuration. For example "pe2" will utilize 2 as the node IP when generating inter-node addressing
