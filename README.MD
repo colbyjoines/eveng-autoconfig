@@ -13,7 +13,7 @@ Steps to configure and run eve_config_gen script:
   "password": "eve",
   "config_options": {
     "nodes_to_configure": [],
-    "loopback_count": 10,
+    "loopback_count": 3,
     "add_duplicate_loopbacks": ["R4", "R5"],
     "private_addressing": true,
     "baseline_config": [
@@ -22,4 +22,35 @@ Steps to configure and run eve_config_gen script:
     ]
   }
 }
+```
+
+
+
+config_options - nodes_to_configure
+: This is used to selectively choose the nodes in which the configuration will be applied. A default, empty list, will apply configuration to all nodes in the topology. A list, such as ['R1', 'R2'], will apply configuration to both nodes R1 and R2.
+
+config_options - loopback_count (max 10)
+: This will apply a variation of loopback addressing based off of this value. A value of 3 will result the following Cisco configuration
+```
+interface Loopback0
+ ip address 20.100.0.1 255.255.255.0
+ ip ospf network point-to-point
+!
+interface Loopback1
+ ip address 20.100.1.1 255.255.255.0
+ ip ospf network point-to-point
+!
+interface Loopback2
+ ip address 20.100.2.1 255.255.255.0
+ ip ospf network point-to-point
+!
+interface Loopback10
+ ip address 100.1.2.0 255.255.255.255
+!
+interface Loopback11
+ ip address 100.1.2.1 255.255.255.255
+!
+interface Loopback12
+ ip address 100.1.2.2 255.255.255.255
+!
 ```

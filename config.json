@@ -5,7 +5,7 @@
   "password": "eve",
   "config_options": {
     "nodes_to_configure": [],
-    "loopback_count": 10,
+    "loopback_count": 3,
     "add_duplicate_loopbacks": ["R4", "R5"],
     "private_addressing": true,
     "baseline_config": [
