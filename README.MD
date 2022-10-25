@@ -15,7 +15,6 @@ Steps to configure and run eve_config_gen script:
     "nodes_to_configure": [],
     "loopback_count": 3,
     "add_duplicate_loopbacks": [],
-    "private_addressing": false,
     "baseline_config": [
       "router ospf 1",
       "network 0.0.0.0 0.0.0.0 area 0"
@@ -23,8 +22,12 @@ Steps to configure and run eve_config_gen script:
   }
 }
 ```
-2. Connect all nodes in the topology. Do not include multiple links between nodes. Verify that the topology (or referenced nodes in config file) are Cisco routers.
-3. Execute the eve_config_gen.py after installing all dependencies included in requirements.txt. **Note** that this will likely fail a few times. Run the scirpt multiple times and it will eventually complete entirely. 
+2. Connect all nodes in the topology. Do not include multiple links between nodes. Verify that the topology (or referenced nodes in config file) are Cisco routers and switches.
+3. Execute the eveng_autoconfig followed by the config file as an argument after installing all dependencies included in requirements.txt. **Note** that this will likely fail a few times. Run the scirpt multiple times and it will eventually complete entirely. 
+
+```
+py eveng_autoconfig.py config.json
+```
 
 ## config_options
 
@@ -70,8 +73,6 @@ interface Loopback22
  ip address 1.1.1.22 255.255.255.255
  ip ospf network point-to-point
 ```
-### private_addressing
-true will result **10.1.xx.x** for physical/internode connectivity. false will result **xx.1.1.xx** for physical/internode connectivity
 
 ### baseline_config
 The list of commands will be passed into the configuration script after all interface and hostname configurations are applied
@@ -80,5 +81,6 @@ The list of commands will be passed into the configuration script after all inte
 ### Caveats
 - All nodes must be online and in a configurable state
 - Nodes cannot have multiple links connecting between the same nodes
+- A single router cannot have multiple links connected to a single L2 segment/group
 - The initial configuration will fail if the topology is brand new and at an initial configuration prompt. Run the script multiple times and it will eventually pass
 - Each node name much include a prefix, followed by a number, which will be used to seed the configuration. For example "pe2" will utilize 2 as the node IP when generating inter-node addressing
