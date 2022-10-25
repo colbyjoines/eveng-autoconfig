@@ -1,4 +1,4 @@
-# eve-config-gen
+# eveng-autoconfig
 
 A basic library used to generate and deploy a baseline configuration to an eve-ng network topology. The script will generate and apply boilerplate IP addressing to transit links and loopback interfaces.
 
