@@ -29,7 +29,7 @@ class Autoconfig:
                 "port": int(node_obj.port),
                 "device_type": "generic_telnet",
             }
-            print("Checking " + node_obj.name + "for initial prompt")
+            print("Checking " + node_obj.name + " for initial prompt")
             connection = ConnectHandler(**conn_params)
             prompt = connection.read_channel_timing(2)
             if "[yes/no]" in prompt:
@@ -64,6 +64,7 @@ class Autoconfig:
             config_set.extend(self.config["config_options"]["additional_config"])
             config_set.append(f"router-id 0.0.0." + node_obj.id)
             config_set.append(f"network 0.0.0.0 0.0.0.0 area 0")
+            print("Applying configuration to " + node_obj.name)
             connection = ConnectHandler(**conn_params)
             connection.enable()
             while True:

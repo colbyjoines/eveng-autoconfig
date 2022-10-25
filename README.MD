@@ -7,18 +7,23 @@ Steps to configure and run eve_config_gen script:
 
 ```
 {
-  "lab_path": "Personal/script_test_02.unl",
-  "server": "192.168.50.100",
+  "lab_path": "Personal_Labs/lab_01.unl",
+  "server": "10.1.1.1",
   "username": "admin",
   "password": "eve",
   "config_options": {
     "nodes_to_configure": [],
     "loopback_count": 3,
     "add_duplicate_loopbacks": [],
-    "baseline_config": [
-      "router ospf 1",
+    "additional_config": [
+      "router ospf 1", 
       "network 0.0.0.0 0.0.0.0 area 0"
     ]
+  },
+  "images": {
+    "router_ios_01": "Router",
+    "router_ios_02": "Router",
+    "switch_ios_01": "Switch"
   }
 }
 ```
@@ -26,6 +31,7 @@ Steps to configure and run eve_config_gen script:
 3. Execute the eveng_autoconfig followed by the config file as an argument after installing all dependencies included in requirements.txt. **Note** that this will likely fail a few times. Run the scirpt multiple times and it will eventually complete entirely. 
 
 ```
+Example
 py eveng_autoconfig.py config.json
 ```
 
@@ -77,10 +83,12 @@ interface Loopback22
 ### baseline_config
 The list of commands will be passed into the configuration script after all interface and hostname configurations are applied
 
+### images
+Provides definition of node types that will be used for creating an IP scheme. Each dictionary value should be replaced with an image name or substring used to identify node types
 
 ### Caveats
 - All nodes must be online and in a configurable state
 - Nodes cannot have multiple links connecting between the same nodes
 - A single router cannot have multiple links connected to a single L2 segment/group
-- The initial configuration will fail if the topology is brand new and at an initial configuration prompt. Run the script multiple times and it will eventually pass
+- The initial configuration may fail if the topology is brand new and at an initial configuration prompt. Run the script multiple times and it will eventually pass
 - Each node name much include a prefix, followed by a number, which will be used to seed the configuration. For example "pe2" will utilize 2 as the node IP when generating inter-node addressing
