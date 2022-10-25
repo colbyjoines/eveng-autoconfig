@@ -3,6 +3,8 @@ from netmiko import exceptions
 
 import time
 
+from pprint import pprint
+
 from .eve_api import EveApi
 from .eve_auth import EveAuth
 from .eve_topology import EveTopology
@@ -11,10 +13,11 @@ from .generate_ip_addressing import GenerateIpAddressing
 
 class Autoconfig:
     def __init__(self, eve_config: dict) -> None:
-        self._config = eve_config
-        self._api = EveApi(self._config, EveAuth(self._config))
-        self.topology = EveTopology(self._config["lab_path"], self._api)
-        self.ip_addressing = GenerateIpAddressing(self._config, self.topology.graph)
+        self.config = eve_config
+        self.api = EveApi(self.config, EveAuth(self.config))
+        self.topology = EveTopology(self.config, self.api)
+        self.ip_addressing = GenerateIpAddressing(self.config, self.topology.graph)
+        pprint(self.ip_addressing.addressing)
 
     def configure(self):
 
@@ -22,14 +25,15 @@ class Autoconfig:
         for node in self.topology.nodes:
             node_obj = self.topology.nodes[node]
             conn_params = {
-                "ip": self._config["server"],
+                "ip": self.config["server"],
                 "port": int(node_obj.port),
                 "device_type": "generic_telnet",
             }
-
+            print("Checking " + node_obj.name + "for initial prompt")
             connection = ConnectHandler(**conn_params)
             prompt = connection.read_channel_timing(2)
             if "[yes/no]" in prompt:
+                print("Initial prompt found on node " + node_obj.name)
                 connection.write_channel("no\n")
                 initial_prompt = True
 
@@ -39,7 +43,7 @@ class Autoconfig:
         for node in self.topology.nodes:
             node_obj = self.topology.nodes[node]
             conn_params = {
-                "ip": self._config["server"],
+                "ip": self.config["server"],
                 "port": int(node_obj.port),
                 "device_type": "cisco_ios_telnet",
             }
@@ -57,7 +61,7 @@ class Autoconfig:
                     config_set.append("no shut")
                     config_set.extend(interface["additional_config"])
 
-            config_set.extend(self._config["config_options"]["additional_config"])
+            config_set.extend(self.config["config_options"]["additional_config"])
             config_set.append(f"router-id 0.0.0." + node_obj.id)
             config_set.append(f"network 0.0.0.0 0.0.0.0 area 0")
             connection = ConnectHandler(**conn_params)
@@ -66,7 +70,8 @@ class Autoconfig:
                 try:
                     res = connection.send_config_set(config_set)
                     break
-                except exceptions.ReadTimeout:
+                except exceptions.ReadTimeout or ValueError:
                     time.sleep(5)
                     res = connection.send_config_set(config_set)
+                    break
             print(res)

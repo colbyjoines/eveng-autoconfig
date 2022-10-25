@@ -1,12 +1,20 @@
 {
-  "lab_path": "Personal/script_test_02.unl",
-  "server": "192.168.50.100",
+  "lab_path": "Personal_Labs/lab_01.unl",
+  "server": "10.1.1.1",
   "username": "admin",
   "password": "eve",
   "config_options": {
     "nodes_to_configure": [],
     "loopback_count": 3,
     "add_duplicate_loopbacks": [],
-    "additional_config": ["router ospf 1"]
+    "additional_config": [
+      "router ospf 1", 
+      "network 0.0.0.0 0.0.0.0 area 0"
+    ]
+  },
+  "images": {
+    "router_ios_01": "Router",
+    "router_ios_02": "Router",
+    "switch_ios_01": "Switch"
   }
 }

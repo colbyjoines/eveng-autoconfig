@@ -1,14 +1,9 @@
 import re
 
-class EveNode:
-    ### TODO: Refactor to a config file
-    node_types = {
-        "vios-adventerprisek9-m": "Router",
-        "i86bi_linux-adventerprisek9-ms": "Router",
-        "l2": "Switch",
-    }
 
-    def __init__(self, node_data: dict) -> None:
+class EveNode:
+    def __init__(self, node_data: dict, config: dict) -> None:
+        self.config = config
         self.id = re.findall(r"\d+", node_data["name"])[0]
         self.name = node_data["name"]
         self.port = node_data["url"].split(":")[2]
@@ -17,6 +12,6 @@ class EveNode:
         self.data = node_data
 
     def get_node_type(self, image: str):
-        for key in self.node_types:
+        for key in self.config["images"]:
             if key in image:
-                return self.node_types[key]
+                return self.config["images"][key]

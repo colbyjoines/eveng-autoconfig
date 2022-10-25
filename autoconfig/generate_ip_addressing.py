@@ -65,8 +65,7 @@ class GenerateIpAddressing:
                         "additional_config": [],
                     }
                 )
-        pprint(self.addressing, indent=4)
-        # exit()
+
     def generate_loopbacks(self):
         for node in self.graph.nodes():
             if node.node_type == "Router":
@@ -110,7 +109,7 @@ class GenerateIpAddressing:
             result = str(lowest + edge[1].id)
         else:
             result = str(edge[1].id + lowest)
-            
+
         if len(result) > 3:
             result = result[0] + result[-2] + result[-1]
         return result
