@@ -19,7 +19,6 @@ class Autoconfig:
     def configure(self):
 
         initial_prompt = False
-
         for node in self.topology.nodes:
             node_obj = self.topology.nodes[node]
             conn_params = {

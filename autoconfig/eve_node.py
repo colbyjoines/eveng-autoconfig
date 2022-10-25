@@ -1,6 +1,7 @@
 import re
 
 class EveNode:
+    ### TODO: Refactor to a config file
     node_types = {
         "vios-adventerprisek9-m": "Router",
         "i86bi_linux-adventerprisek9-ms": "Router",
