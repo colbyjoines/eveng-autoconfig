@@ -7,6 +7,6 @@
     "nodes_to_configure": [],
     "loopback_count": 3,
     "add_duplicate_loopbacks": [],
-    "additional_config": ["router ospf 1", "network 0.0.0.0 0.0.0.0 area 0"]
+    "additional_config": ["router ospf 1"]
   }
 }

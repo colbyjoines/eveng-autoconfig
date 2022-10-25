@@ -26,7 +26,7 @@ class GenerateIpAddressing:
                         "interface": self.graph[edge[0]][edge[1]]["links"][
                             edge[0].name
                         ],
-                        "address": f"10.1.{link_id}." + edge[0].id,
+                        "address": f"10.0.{link_id}." + edge[0].id,
                         "mask": "255.255.255.0",
                         "additional_config": [],
                     }
@@ -36,7 +36,7 @@ class GenerateIpAddressing:
                         "interface": self.graph[edge[0]][edge[1]]["links"][
                             edge[1].name
                         ],
-                        "address": f"10.1.{link_id}." + edge[1].id,
+                        "address": f"10.0.{link_id}." + edge[1].id,
                         "mask": "255.255.255.0",
                         "additional_config": [],
                     }
@@ -48,7 +48,7 @@ class GenerateIpAddressing:
                         "interface": self.graph[edge[0]][edge[1]]["links"][
                             edge[1].name
                         ],
-                        "address": f"10.{l2_id}0.{l2_id}0." + edge[1].id,
+                        "address": f"10.{l2_id}.{l2_id}." + edge[1].id,
                         "mask": "255.255.255.0",
                         "additional_config": [],
                     }
@@ -60,7 +60,7 @@ class GenerateIpAddressing:
                         "interface": self.graph[edge[0]][edge[1]]["links"][
                             edge[0].name
                         ],
-                        "address": f"10.{l2_id}0.{l2_id}0." + edge[0].id,
+                        "address": f"10.{l2_id}.{l2_id}." + edge[0].id,
                         "mask": "255.255.255.0",
                         "additional_config": [],
                     }
@@ -110,4 +110,7 @@ class GenerateIpAddressing:
             result = str(lowest + edge[1].id)
         else:
             result = str(edge[1].id + lowest)
+            
+        if len(result) > 3:
+            result = result[0] + result[-2] + result[-1]
         return result

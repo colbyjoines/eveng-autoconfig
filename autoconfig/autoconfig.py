@@ -59,6 +59,8 @@ class Autoconfig:
                     config_set.extend(interface["additional_config"])
 
             config_set.extend(self._config["config_options"]["additional_config"])
+            config_set.append(f"router-id 0.0.0." + node_obj.id)
+            config_set.append(f"network 0.0.0.0 0.0.0.0 area 0")
             connection = ConnectHandler(**conn_params)
             connection.enable()
             while True:

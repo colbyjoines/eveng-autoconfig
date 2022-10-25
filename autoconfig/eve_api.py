@@ -1,7 +1,7 @@
 import requests
 import json
 
-from eveng_autoconfig.eve_auth import EveAuth
+from .eve_auth import EveAuth
 import requests
 
 

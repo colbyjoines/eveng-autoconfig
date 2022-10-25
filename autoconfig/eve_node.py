@@ -1,6 +1,5 @@
 import re
 
-
 class EveNode:
     node_types = {
         "vios-adventerprisek9-m": "Router",

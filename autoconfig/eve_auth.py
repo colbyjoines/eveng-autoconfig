@@ -1,8 +1,4 @@
-from distutils.command.config import config
-from regex import P
 import requests
-import json
-
 
 class EveAuth:
     def __init__(self, eve_config: dict) -> None:
