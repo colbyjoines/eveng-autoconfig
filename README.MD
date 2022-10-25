@@ -3,9 +3,9 @@
 A basic library used to generate and deploy a baseline configuration to an eve-ng network topology. The script will generate and apply boilerplate IP addressing to transit links and loopback interfaces.
 
 An outline of the scheme is as follows:
-- R1 that connects to R2 will receive a transit link configuration with 10.0.**12.1**/24 applied to R1's interface that faces R2. R2 will receive a transit link configuration with 10.0.12.2/24 applied to R2's interface that faces R1. **12** being the combination of R1's ID, begin 1, and R2's ID, being 2. Each router's transit link will utilize their ID as the host IP address on a given segment. 
-- R1 that is connected to SW5 will receive a configuration 10.**5**.**5**.**1**. Where 5 is the switch ID and 1 is the router ID, acting as the host address on the segment.
-- Multiple switches that are connected will be grouped and the lowest switch ID will be used to generate the IP scheme.
+- R1 that connects to R2 will receive a transit link configuration with 10.0.**12.1**/24 applied to R1's interface that faces R2. R2 will receive a transit link configuration with 10.0.12.2/24 applied to R2's interface that faces R1. **12** being the combination of R1's ID, 1, and R2's ID, 2. Each router's transit link will utilize their ID as the host IP address on a given segment. 
+- R1 that is connected to SW5 will receive a configuration 10.**5**.**5**.**1**/24. Where 5 is the switch ID and 1 is the router ID, acting as the host address on the segment.
+- Multiple switches that are connected will be grouped and the lowest switch ID will be used to generate the IP scheme. Any router that connects to a group of switches will utilize the same pattern as the previous bullet, except it will utilize the lowest switch ID in a given group of connected switches. 
 
 Steps to configure and run eve_config_gen script:
 1. Update config.json file with topology, environement, and Cisco image details. Reference config_options section for details
