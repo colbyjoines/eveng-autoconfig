@@ -97,3 +97,4 @@ Provides definition of node types that will be used for creating an IP scheme. E
 - A single router cannot have multiple links connected to a single L2 segment/group
 - The initial configuration may fail if the topology is brand new and at an initial configuration prompt. Run the script multiple times and it will eventually pass
 - Each node name much include a prefix, followed by a number, which will be used to seed the configuration. For example "pe2" will utilize 2 as the node IP when generating inter-node addressing
+- Switch VLANs will not be considered when generating an IP scheme
