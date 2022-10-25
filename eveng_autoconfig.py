@@ -1,7 +1,7 @@
 import json
 import sys
 
-from eveng_autoconfig import Autoconfig
+from autoconfig import Autoconfig
 
 def main(argv):
     autoconfig = Autoconfig(json.load(open(argv[1])))
