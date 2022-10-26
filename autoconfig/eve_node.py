@@ -2,8 +2,8 @@ import re
 
 
 class EveNode:
-    def __init__(self, node_data: dict, config: dict) -> None:
-        self.config = config
+    def __init__(self, node_data: dict, eve_config: dict) -> None:
+        self.config = eve_config
         self.id = re.findall(r"\d+", node_data["name"])[0]
         self.name = node_data["name"]
         self.port = node_data["url"].split(":")[2]

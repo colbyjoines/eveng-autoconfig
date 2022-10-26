@@ -93,8 +93,8 @@ Provides definition of node types that will be used for creating an IP scheme. E
 
 ### Caveats
 - All nodes must be online and in a configurable state
-- Nodes cannot have multiple links connecting between the same nodes
-- A single router cannot have multiple links connected to a single L2 segment/group
-- The initial configuration may fail if the topology is brand new and at an initial configuration prompt. Run the script multiple times and it will eventually pass
-- Each node name much include a prefix, followed by a number, which will be used to seed the configuration. For example "pe2" will utilize 2 as the node IP when generating inter-node addressing
+- Nodes cannot have multiple links interconnecting the same nodes
+- A single router cannot have multiple links connected to a single L2 segment or group of switches
+- Each node name much include a prefix, followed by a unique number, which will be used to seed the configuration. For example "pe2" will utilize 2 as the node IP when generating inter-node addressing
 - Switch VLANs will not be considered when generating an IP scheme
+- The initial configuration may fail if the topology is brand new and at an initial configuration prompt. Run the script multiple times and it will eventually pass

@@ -6,10 +6,10 @@ from .eve_node import EveNode
 
 
 class EveTopology:
-    def __init__(self, config: dict, api: EveApi) -> None:
+    def __init__(self, eve_config: dict, api: EveApi) -> None:
         self.segment_groups = []
-        self.config = config
-        self.lab_path = config["lab_path"]
+        self.config = eve_config
+        self.lab_path = eve_config["lab_path"]
         self.api = api
         self.nodes = self.get_nodes()
         self.links = self.get_links()

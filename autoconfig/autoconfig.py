@@ -1,5 +1,8 @@
 from netmiko import ConnectHandler
 from netmiko import exceptions
+from netmiko.exceptions import  ReadTimeout, AuthenticationException, ConnectionException
+from paramiko.ssh_exception import SSHException 
+
 
 import time
 
@@ -17,7 +20,8 @@ class Autoconfig:
         self.api = EveApi(self.config, EveAuth(self.config))
         self.topology = EveTopology(self.config, self.api)
         self.ip_addressing = GenerateIpAddressing(self.config, self.topology.graph)
-        pprint(self.ip_addressing.addressing)
+        self.ip_addressing.generate_physical()
+        self.ip_addressing.generate_loopbacks()
 
     def configure(self):
 
@@ -54,25 +58,52 @@ class Autoconfig:
 
             if node_obj.node_type == "Router":
                 for interface in self.ip_addressing.addressing[node_obj.name]:
-                    config_set.append("interface " + interface["interface"])
-                    config_set.append(
-                        "ip address " + interface["address"] + " " + interface["mask"]
-                    )
-                    config_set.append("no shut")
-                    config_set.extend(interface["additional_config"])
+                    if interface["type"] == "ipv4":
+                        config_set.append("interface " + interface["interface"])
+                        config_set.append("ip address " + interface["address"] + " " + interface["mask"])
+                        config_set.append("no shut")
+                        config_set.extend(interface["additional_config"])
+                    if interface["type"] == "ipv6":
+                        config_set.append("interface " + interface["interface"])
+                        config_set.append("ipv6 address " + interface["address"] + interface["mask"])
+                        config_set.append("exit")
+                        config_set.append("ipv6 unicast-routing") 
+                 
 
-            config_set.extend(self.config["config_options"]["additional_config"])
-            config_set.append(f"router-id 0.0.0." + node_obj.id)
-            config_set.append(f"network 0.0.0.0 0.0.0.0 area 0")
-            print("Applying configuration to " + node_obj.name)
-            connection = ConnectHandler(**conn_params)
+                config_set.extend(self.config["config_options"]["additional_config"])
+                config_set.append(f"router-id 0.0.0." + node_obj.id)
+                config_set.append(f"network 0.0.0.0 0.0.0.0 area 0")
+                print("Applying configuration to " + node_obj.name)
+                connection = ConnectHandler(**conn_params)
             connection.enable()
             while True:
                 try:
                     res = connection.send_config_set(config_set)
                     break
-                except exceptions.ReadTimeout or ValueError:
-                    time.sleep(5)
+                except AuthenticationException as e: 
+                    print(e.with_traceback())
                     res = connection.send_config_set(config_set)
                     break
+                    continue 
+                except ReadTimeout as e: 
+                    print(e.with_traceback())
+                    res = connection.send_config_set(config_set)
+                    break
+                    continue
+                except SSHException as e: 
+                    print(e.with_traceback())
+                    res = connection.send_config_set(config_set)
+                    break
+                    continue 
+                except EOFError as e: 
+                    print(e.with_traceback())
+                    res = connection.send_config_set(config_set)
+                    break
+                    continue
+                except Exception as e:
+                    print(e.with_traceback())
+                    res = connection.send_config_set(config_set)
+                    break
+                    continue
+
             print(res)
