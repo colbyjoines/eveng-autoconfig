@@ -89,7 +89,12 @@ interface Loopback22
 The list of commands will be passed into the configuration script after all interface and hostname configurations are applied
 
 ### images
-Provides definition of node types that will be used for creating an IP scheme. Each dictionary value should be replaced with an image name or substring used to identify node types
+Provides definition of node types (Router or Switch) that will be used for creating an IP scheme. Each dictionary key should be replaced with an image name or substring used to identify node types
+```
+Example
+"iosv-": "Router",
+"iosvl2-": "Switch"
+```
 
 ### Caveats
 - All nodes must be online and in a configurable state
