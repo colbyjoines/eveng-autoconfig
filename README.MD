@@ -92,8 +92,10 @@ The list of commands will be passed into the configuration script after all inte
 Provides definition of node types (Router or Switch) that will be used for creating an IP scheme. Each dictionary key should be replaced with an image name or substring used to identify node types
 ```
 Example
-"iosv-": "Router",
-"iosvl2-": "Switch"
+"images": {
+  "iosv-": "Router",
+  "iosvl2-": "Switch"
+ }
 ```
 
 ### Caveats
