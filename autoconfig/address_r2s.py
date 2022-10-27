@@ -22,7 +22,6 @@ class AddressR2S(Address):
                 "type": "ipv4",
                 "additional_config": [],
             }
-
         else:
             l2_id = self.graph[self.edge[1]][self.edge[0]]["l2_group"]
             result[self.edge[0].name] = {

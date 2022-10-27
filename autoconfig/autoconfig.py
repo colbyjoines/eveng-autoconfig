@@ -35,6 +35,7 @@ class Autoconfig:
             }
             print("Checking " + node_obj.name + " for initial prompt")
             connection = ConnectHandler(**conn_params)
+            connection.write_channel("\n")
             prompt = connection.read_channel_timing(2)
             if "[yes/no]" in prompt:
                 print("Initial prompt found on node " + node_obj.name)
@@ -42,7 +43,7 @@ class Autoconfig:
                 initial_prompt = True
 
         if initial_prompt:
-            time.sleep(10)
+            time.sleep(25)
 
         for node in self.topology.nodes:
             node_obj = self.topology.nodes[node]
@@ -75,9 +76,15 @@ class Autoconfig:
                 config_set.append(f"network 0.0.0.0 0.0.0.0 area 0")
                 print("Applying configuration to " + node_obj.name)
                 connection = ConnectHandler(**conn_params)
-            connection.enable()
+                connection.write_channel("\n")
+                connection.write_channel("\n")
+                connection.write_channel("\n")
+                
+                
+            
             while True:
                 try:
+                    connection.enable()
                     res = connection.send_config_set(config_set)
                     break
                 except AuthenticationException as e: 

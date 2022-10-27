@@ -27,7 +27,6 @@ Steps to configure and run eve_config_gen script:
   },
   "images": {
     "router_ios_01": "Router",
-    "router_ios_02": "Router",
     "switch_ios_01": "Switch"
   }
 }
