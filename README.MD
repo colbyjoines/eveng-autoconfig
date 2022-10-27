@@ -42,10 +42,10 @@ py eveng_autoconfig.py config.json
 
 ## config_options
 
-### nodes_to_configure
+### nodes_to_configure - Optional
 This is used to selectively choose the nodes in which the configuration will be applied. A default, empty list, will apply configuration to all nodes in the topology. A list, such as ['R1', 'R2'], will apply configuration to both nodes R1 and R2.
 
-### loopback_count
+### loopback_count - Required (max 9)
 This will apply a variation of loopback addressing based off of this value. A value of 3 will result the following Cisco configuration
 ```
 interface Loopback0
@@ -69,7 +69,7 @@ interface Loopback11
 interface Loopback12
  ip address 100.1.2.2 255.255.255.255
 ```
-### add_duplicate_loopbacks
+### add_duplicate_loopbacks - Optional
 This value will add duplicate networks on a list of nodes. A loopback_count value of 3 will apply the following configuration on the referenced nodes
 ```
 interface Loopback20
@@ -85,10 +85,10 @@ interface Loopback22
  ip ospf network point-to-point
 ```
 
-### baseline_config
+### baseline_config - Optional
 The list of commands will be passed into the configuration script after all interface and hostname configurations are applied
 
-### images
+### images - Required
 Provides definition of node types (Router or Switch) that will be used for creating an IP scheme. Each dictionary key should be replaced with an image name or substring used to identify node types
 ```
 Example
