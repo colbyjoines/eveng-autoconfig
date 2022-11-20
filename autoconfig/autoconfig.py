@@ -27,7 +27,10 @@ class Autoconfig:
 
         initial_prompt = False
         for node in self.topology.nodes:
+            continue
             node_obj = self.topology.nodes[node]
+            if node_obj.name not in self.config["config_options"]["nodes_to_configure"] and self.config["config_options"]["nodes_to_configure"] != []:
+                continue
             conn_params = {
                 "ip": self.config["server"],
                 "port": int(node_obj.port),
@@ -43,10 +46,15 @@ class Autoconfig:
                 initial_prompt = True
 
         if initial_prompt:
-            time.sleep(25)
+            time.sleep(45)
 
         for node in self.topology.nodes:
+            node_obj = {}
             node_obj = self.topology.nodes[node]
+            
+            if node_obj.name not in self.config["config_options"]["nodes_to_configure"] and self.config["config_options"]["nodes_to_configure"] != []:
+                continue
+            
             conn_params = {
                 "ip": self.config["server"],
                 "port": int(node_obj.port),
@@ -72,45 +80,35 @@ class Autoconfig:
                  
 
                 config_set.extend(self.config["config_options"]["additional_config"])
-                config_set.append(f"router-id 0.0.0." + node_obj.id)
-                config_set.append(f"network 0.0.0.0 0.0.0.0 area 0")
+          
                 print("Applying configuration to " + node_obj.name)
-                connection = ConnectHandler(**conn_params)
-                connection.write_channel("\n")
-                connection.write_channel("\n")
-                connection.write_channel("\n")
-                
+            connection = ConnectHandler(**conn_params)
+            # connection.write_channel("\n")
+            # connection.write_channel("\n")
+            # connection.write_channel("\n")
+            res = connection.enable()
                 
             
-            while True:
-                try:
-                    connection.enable()
-                    res = connection.send_config_set(config_set)
-                    break
-                except AuthenticationException as e: 
-                    print(e.with_traceback())
-                    res = connection.send_config_set(config_set)
-                    break
-                    continue 
-                except ReadTimeout as e: 
-                    print(e.with_traceback())
-                    res = connection.send_config_set(config_set)
-                    break
-                    continue
-                except SSHException as e: 
-                    print(e.with_traceback())
-                    res = connection.send_config_set(config_set)
-                    break
-                    continue 
-                except EOFError as e: 
-                    print(e.with_traceback())
-                    res = connection.send_config_set(config_set)
-                    break
-                    continue
-                except Exception as e:
-                    print(e.with_traceback())
-                    res = connection.send_config_set(config_set)
-                    break
-                    continue
-
+            try:
+                connection.enable()
+                res = connection.send_config_set(config_set)
+                
+            except AuthenticationException as e: 
+                print(str(e))
+                res = connection.send_config_set(config_set)
+                
+            except ReadTimeout as e: 
+                print(str(e))
+                res = connection.send_config_set(config_set)
+                
+                
+            except SSHException as e: 
+                print(str(e))
+                res = connection.send_config_set(config_set)
+                
+            except EOFError as e: 
+                print(str(e))
+                res = connection.send_config_set(config_set)
+            except Exception as e:
+                continue
             print(res)
