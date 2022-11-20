@@ -10,7 +10,8 @@
     "additional_config": [
       "router ospf 1", 
       "network 0.0.0.0 0.0.0.0 area 0"
-    ]
+    ],
+    "check_for_initial_prompt": true
   },
   "images": {
     "router_ios_01": "Router",

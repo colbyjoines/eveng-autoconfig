@@ -27,7 +27,8 @@ class Autoconfig:
 
         initial_prompt = False
         for node in self.topology.nodes:
-            continue
+            if not self.config["config_options"]["check_for_initial_prompt"]:
+                continue
             node_obj = self.topology.nodes[node]
             if node_obj.name not in self.config["config_options"]["nodes_to_configure"] and self.config["config_options"]["nodes_to_configure"] != []:
                 continue
